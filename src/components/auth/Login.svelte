@@ -1,5 +1,6 @@
 <script context="module">
-  import { FormGroup, Input, Label } from "sveltestrap";
+  import { FormGroup, Input, Label, Spinner } from "sveltestrap";
+  import { toasts } from "../../stores/toast.store";
   import { supabase } from "../../utils/supabaseConfig";
 </script>
 
@@ -11,11 +12,21 @@
   const handleLogin = async () => {
     try {
       loading = true;
-      const { error } = await supabase.auth.signIn({ email, password });
-      if (error) throw error;
+      if (!email || !password) {
+        toasts.warning(
+          "Faltan datos",
+          "Es necesario ingresar los campos del formulario"
+        );
+      } else {
+        const { error } = await supabase.auth.signIn({ email, password });
+        if (error) throw error;
+      }
     } catch (error) {
       console.log(error);
-      alert(error.error_description || error.message);
+      toasts.danger(
+        "Credenciales incorrectas",
+        "Las credenciales son erróneas!"
+      );
     } finally {
       loading = false;
     }
@@ -43,6 +54,12 @@
       bind:value={password}
     />
   </FormGroup>
+  <button type="submit" class="btn btn-primary" disabled={loading}>
+    {#if loading}
+      <Spinner size="sm" />
+    {/if}
+    Ingresar
+  </button>
 </form>
 
 <style>

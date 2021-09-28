@@ -1,5 +1,7 @@
 <script context="module">
+  import { FormGroup, Input, Label, Spinner } from "sveltestrap";
   import { supabase } from "../../utils/supabaseConfig";
+  import { toasts } from "../../stores/toast.store";
 </script>
 
 <script lang="ts">
@@ -10,15 +12,26 @@
   const handleRegister = async () => {
     try {
       loading = true;
-      const { error, data } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) throw error;
-      alert(data["message"]);
+      if (!email || !password) {
+        toasts.warning(
+          "Faltan datos",
+          "Es necesario ingresar los campos del formulario"
+        );
+      } else {
+        const { error, data } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (error) throw error;
+        toasts.warning(
+          "Registro completado",
+          "Gracias por registrarte, revisa tu email para confirmar tu registro!"
+        );
+      }
     } catch (error) {
       console.log(error);
-      alert(error.error_description || error.message);
+      const msg = error.error_description || error.message;
+      toasts.danger("Ocurrió un error", msg);
     } finally {
       loading = false;
     }
@@ -26,31 +39,32 @@
 </script>
 
 <form on:submit|preventDefault={handleRegister}>
-  <div class="col-6 form-widget">
-    <h1 class="header">Supabase + Svelte</h1>
-    <div>
-      <input
-        class="inputField"
-        type="email"
-        placeholder="Your email"
-        bind:value={email}
-      />
-      <input
-        class="inputField"
-        type="password"
-        placeholder="Your password"
-        bind:value={password}
-      />
-    </div>
-    <div>
-      <input
-        type="submit"
-        class="button block"
-        value={loading ? "Loading" : "Send magic link"}
-        disabled={loading}
-      />
-    </div>
-  </div>
+  <FormGroup>
+    <Label for="inputEmailR">Correo</Label>
+    <Input
+      type="email"
+      name="email"
+      id="inputEmailR"
+      placeholder="Ingresar correo"
+      bind:value={email}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="inputPasswordR">Contraseña</Label>
+    <Input
+      type="password"
+      name="password"
+      id="inputPasswordR"
+      placeholder="Ingresar contraseña"
+      bind:value={password}
+    />
+  </FormGroup>
+  <button type="submit" class="btn btn-primary" disabled={loading}>
+    {#if loading}
+      <Spinner size="sm" />
+    {/if}
+    Ingresar
+  </button>
 </form>
 
 <style>

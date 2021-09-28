@@ -13,13 +13,19 @@
       <span slot="tab">
         Iniciar Sesión <Icon name="person-fill" />
       </span>
-      <Login />
+      <div class="container pt-4">
+        <h2 class="mb-2">Iniciar Sesión</h2>
+        <Login />
+      </div>
     </TabPane>
     <TabPane tabId="register">
       <span slot="tab">
         Registrarse <Icon name="person-badge-fill" />
       </span>
-      <Register />
+      <div class="container pt-4">
+        <h2 class="mb-2">Registrarse</h2>
+        <Register />
+      </div>
     </TabPane>
   </TabContent>
 </div>
