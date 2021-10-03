@@ -1,6 +1,7 @@
 <script context="module">
   import { createEventDispatcher } from "svelte";
   import { ListGroup, ListGroupItem } from "sveltestrap";
+  import { user } from "../../stores/session.store";
 </script>
 
 <script lang="ts">
@@ -12,6 +13,7 @@
 
 <div>
   <h4 class="text-center">ApplicationName</h4>
+  <p>{$user.email}</p>
   <ListGroup flush>
     <ListGroupItem
       tag="button"

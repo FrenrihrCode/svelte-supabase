@@ -1,7 +1,6 @@
 <script context="module">
   import Auth from "./components/Auth.svelte";
   import Dashboard from "./components/Dashboard.svelte";
-  import Profile from "./components/Profile.svelte";
   import Toast from "./shared/Toast.svelte";
   import { user } from "./stores/session.store";
   import { supabase } from "./utils/supabaseConfig";
@@ -27,7 +26,11 @@
 </svelte:head>
 
 <main>
-  <Dashboard />
+  {#if $user}
+    <Dashboard />
+  {:else}
+    <Auth />
+  {/if}
   <Toast />
 </main>
 

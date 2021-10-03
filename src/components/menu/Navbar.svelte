@@ -12,6 +12,7 @@
     DropdownItem,
   } from "sveltestrap";
   import { createEventDispatcher } from "svelte";
+  import { user } from "../../stores/session.store";
 </script>
 
 <script lang="ts">
@@ -26,14 +27,6 @@
   <NavbarBrand href="/" class="me-auto">ApplicationName</NavbarBrand>
   <NavbarToggler on:click={() => dispatch("open")} aria-label="Menú" />
   <Nav class="d-none d-md-flex ms-auto" navbar>
-    <Dropdown nav inNavbar>
-      <DropdownToggle nav caret>UserName</DropdownToggle>
-      <DropdownMenu end>
-        <DropdownItem>Ver mi perfil</DropdownItem>
-        <DropdownItem divider />
-        <DropdownItem>Cerrar sesión</DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
     <NavItem>
       <NavLink on:click={() => dispatch("change", "boards")}>Tableros</NavLink>
     </NavItem>
@@ -42,6 +35,14 @@
         >Productos</NavLink
       >
     </NavItem>
+    <Dropdown nav inNavbar>
+      <DropdownToggle nav caret>{$user.email}</DropdownToggle>
+      <DropdownMenu end>
+        <DropdownItem>Ver mi perfil</DropdownItem>
+        <DropdownItem divider />
+        <DropdownItem>Cerrar sesión</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
   </Nav>
 </Navbar>
 
