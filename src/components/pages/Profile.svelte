@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { supabase } from "../utils/supabaseConfig";
-  import { user } from "../stores/session.store";
   import { onMount } from "svelte";
+  import { user } from "../../stores/session.store";
+  import { supabase } from "../../utils/supabaseConfig";
 
   let loading = true;
   let username = null;

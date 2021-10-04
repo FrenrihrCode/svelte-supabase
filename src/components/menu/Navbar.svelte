@@ -18,22 +18,20 @@
 <script lang="ts">
   interface dispatcher {
     open: boolean;
-    change: "boards" | "products";
+    // change: "boards" | "products";
   }
   const dispatch = createEventDispatcher<dispatcher>();
 </script>
 
 <Navbar color="light" light expand="md">
-  <NavbarBrand href="/" class="me-auto">ApplicationName</NavbarBrand>
+  <NavbarBrand href="#/" class="me-auto">ApplicationName</NavbarBrand>
   <NavbarToggler on:click={() => dispatch("open")} aria-label="Menú" />
   <Nav class="d-none d-md-flex ms-auto" navbar>
-    <NavItem>
-      <NavLink on:click={() => dispatch("change", "boards")}>Tableros</NavLink>
+    <NavItem active>
+      <NavLink href="#/boards">Tableros</NavLink>
     </NavItem>
     <NavItem>
-      <NavLink on:click={() => dispatch("change", "products")}
-        >Productos</NavLink
-      >
+      <NavLink href="#/products">Productos</NavLink>
     </NavItem>
     <Dropdown nav inNavbar>
       <DropdownToggle nav caret>{$user.email}</DropdownToggle>

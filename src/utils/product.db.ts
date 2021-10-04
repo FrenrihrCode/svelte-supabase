@@ -5,7 +5,8 @@ export const getProducts = async () => {
   const { body, error } = await supabase
     .from<IProduct>("products")
     .select("*")
-    .order("created_at");
+    .order("created_at")
+    .limit(20);
   if (error) {
     console.log(error);
   }
@@ -22,7 +23,9 @@ export const getProductById = async (id: string) => {
 };
 
 export const createProduct = async (board: ICreateProduct) => {
-  const { body, error } = await supabase.from<IProduct>("products").insert(board);
+  const { body, error } = await supabase
+    .from<IProduct>("products")
+    .insert(board);
   if (error) {
     console.log(error);
   }

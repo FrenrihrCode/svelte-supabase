@@ -6,7 +6,7 @@
 
 <script lang="ts">
   interface dispatcher {
-    change: "boards" | "products";
+    change: string;
   }
   const dispatch = createEventDispatcher<dispatcher>();
 </script>
@@ -18,12 +18,17 @@
     <ListGroupItem
       tag="button"
       action
-      on:click={() => dispatch("change", "boards")}>Tableros</ListGroupItem
+      on:click={() => dispatch("change", "/")}>Inicio</ListGroupItem
     >
     <ListGroupItem
       tag="button"
       action
-      on:click={() => dispatch("change", "products")}>Productos</ListGroupItem
+      on:click={() => dispatch("change", "/boards")}>Tableros</ListGroupItem
+    >
+    <ListGroupItem
+      tag="button"
+      action
+      on:click={() => dispatch("change", "/products")}>Productos</ListGroupItem
     >
     <ListGroupItem tag="button" action>Ver mi perfil</ListGroupItem>
     <ListGroupItem color="danger" tag="button" action

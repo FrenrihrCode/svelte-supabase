@@ -39,6 +39,15 @@ function serve() {
 
 export default {
   input: "src/main.ts",
+  /* For lazy loading components
+  output: {
+      sourcemap: true,
+      name: 'app',
+      format: 'esm',
+      dir: 'dist/',
+      chunkFileNames: '[name].js'
+  },
+  */
   output: {
     sourcemap: true,
     format: "iife",
