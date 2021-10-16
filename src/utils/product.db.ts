@@ -22,20 +22,28 @@ export const getProductById = async (id: string) => {
   return body;
 };
 
-export const createProduct = async (board: ICreateProduct) => {
+export const createProduct = async (product: ICreateProduct) => {
   const { body, error } = await supabase
     .from<IProduct>("products")
-    .insert(board);
+    .insert(product);
   if (error) {
     console.log(error);
   }
   return body[0];
 };
 
-export const updateBoard = async (board: Partial<ICreateProduct>) => {
-  const { body } = await supabase
+export const updateProduct = async (product: Partial<IProduct>) => {
+  const { error, body } = await supabase
     .from<IProduct>("products")
-    .update(board)
-    .match({ id: board.id });
-  return body[0];
+    .update({
+      name: product.name,
+      category: product.category,
+      description: product.description,
+      available: product.available,
+    })
+    .eq("id", product.id);
+  if (error) {
+    console.log(error);
+  }
+  return body;
 };

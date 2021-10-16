@@ -2,7 +2,11 @@
   import { onMount } from "svelte";
   import { Column, Table, Button, Icon, Modal } from "sveltestrap";
   import Loading from "../general/Loading.svelte";
-  import { createProduct, getProducts } from "../../utils/product.db";
+  import {
+    createProduct,
+    getProducts,
+    updateProduct,
+  } from "../../utils/product.db";
   import FormProduct from "../products/FormProduct.svelte";
 </script>
 
@@ -26,24 +30,36 @@
   $: title = isEditing ? "Editar producto" : "Añadir nuevo producto";
 
   const toggle = () => (open = !open);
-  const openModal = () => {
-    selectedProduct = {
-      name: "",
-      description: "",
-      category: "",
-      available: true,
-    };
+
+  const openModal = (forEdit: boolean, product?: IProduct) => {
+    selectedProduct = forEdit
+      ? product
+      : {
+          name: "",
+          description: "",
+          category: "",
+          available: true,
+        };
     open = true;
-    isEditing = false;
+    isEditing = forEdit;
   };
+
   const handleSubmitForm = async (event: CustomEvent<ICreateProduct>) => {
-    const product = event.detail;
-    open = false;
-    loading = true;
-    const res = await createProduct(product);
-    console.log(res);
-    products = await getProducts();
-    loading = false;
+    try {
+      const product = event.detail;
+      open = false;
+      loading = true;
+      if (isEditing) {
+        await updateProduct(product);
+      } else {
+        await createProduct(product);
+      }
+      products = await getProducts();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      loading = false;
+    }
   };
 
   onMount(async () => {
@@ -55,7 +71,9 @@
 <div>
   <div class="py-2 px-3 d-flex products-header">
     <h2>Listado de productos</h2>
-    <Button on:click={openModal}>Nuevo producto<Icon name="plus" /></Button>
+    <Button on:click={() => openModal(false)}
+      >Nuevo producto<Icon name="plus" /></Button
+    >
   </div>
   <div class="px-3">
     {#if !loading}
@@ -79,6 +97,9 @@
           <a href={`#/products/${row.id}`}>
             <Icon name="eye-fill" />
           </a>
+          <button class="icon-btn" on:click={() => openModal(true, row)}>
+            <Icon name="pencil-fill" />
+          </button>
         </Column>
       </Table>
     {:else}
@@ -93,5 +114,17 @@
 <style>
   .products-header {
     justify-content: space-between;
+  }
+  .icon-btn {
+    padding: 0px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: orange;
+    margin-left: 10px;
+  }
+  .icon-btn:hover,
+  .icon-btn:active {
+    color: orangered;
   }
 </style>

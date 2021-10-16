@@ -29,8 +29,9 @@
       <FormGroup>
         <Label for="descInput">Descripción</Label>
         <Input
-          type="text"
+          type="textarea"
           name="desc"
+          rows={4}
           id="descInput"
           bind:value={product.description}
           placeholder="Descripción del producto"
