@@ -35,13 +35,19 @@ export const createProduct = async (product: ICreateProduct) => {
 export const updateProduct = async (product: Partial<IProduct>) => {
   const { error, body } = await supabase
     .from<IProduct>("products")
-    .update({
-      name: product.name,
-      category: product.category,
-      description: product.description,
-      available: product.available,
-    })
+    .update(product)
     .eq("id", product.id);
+  if (error) {
+    console.log(error);
+  }
+  return body;
+};
+
+export const deleteProduct = async (id: number) => {
+  const { error, body } = await supabase
+    .from<IProduct>("products")
+    .delete()
+    .eq("id", id);
   if (error) {
     console.log(error);
   }

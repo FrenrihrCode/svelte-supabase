@@ -27,11 +27,11 @@
   <NavbarBrand href="#/" class="me-auto">ApplicationName</NavbarBrand>
   <NavbarToggler on:click={() => dispatch("open")} aria-label="Menú" />
   <Nav class="d-none d-md-flex ms-auto" navbar>
-    <NavItem active>
-      <NavLink href="#/boards">Tableros</NavLink>
-    </NavItem>
     <NavItem>
       <NavLink href="#/products">Productos</NavLink>
+    </NavItem>
+    <NavItem active>
+      <NavLink href="#/categories">Categorías</NavLink>
     </NavItem>
     <Dropdown nav inNavbar>
       <DropdownToggle nav caret>{$user.email}</DropdownToggle>

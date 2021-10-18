@@ -28,7 +28,7 @@ export const routes = {
   "/products/:id": wrap({
     component: SingleProduct,
   }),
-  "/boards": wrap({
+  "/categories": wrap({
     component: Boards,
   }),
   "/profile": wrap({
